@@ -34,3 +34,14 @@ st.metric("Earnings in range", f"${picked.amount.sum():,.0f}", f"{len(picked):,}
 weekly = picked.groupby([pd.Grouper(key="date", freq="W"), "sector"]).amount.sum().unstack()
 st.bar_chart(weekly)
 st.dataframe(picked.sort_values("date", ascending=False), hide_index=True)
+
+st.info(
+        "Below is the Python code powering this visualization, read dynamically from Github Repository."
+)
+
+try:
+    with open(__file__, "r", encoding="utf-8") as f:
+       source_code = f.read()
+    st.code(source_code, language="python", line_numbers=True)
+except Exception as e:
+    st.error(f"Could not read source file automatically: {e}")
