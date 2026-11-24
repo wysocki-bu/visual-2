@@ -9,8 +9,8 @@ def load_orders():
     n = 2_000
     return pd.DataFrame({
         "date": pd.Timestamp("2026-01-01") + pd.to_timedelta(rng.integers(0, 280, n), unit="D"),
-        "region": rng.choice(["North", "South", "East", "West"], n),
-        "product": rng.choice(["Basic", "Pro", "Team"], n, p=[0.5, 0.35, 0.15]),
+        "region": rng.choice(["Services", "Finance", "Manufacturing", "Energy"], n),
+        "product": rng.choice(["Americas", "Europe", "Asia"], n, p=[0.5, 0.35, 0.15]),
         "amount": rng.gamma(2.0, 60.0, n).round(2),
     })
  
@@ -29,8 +29,8 @@ if len(dates) != 2:
 start, end = dates
 picked = orders[orders.region.isin(regions) & orders.date.dt.date.between(start, end)]
  
-st.title("Orders")
-st.metric("Revenue in range", f"${picked.amount.sum():,.0f}", f"{len(picked):,} orders", delta_color="off")
+st.title("Corporate Earnings by Industry & Region ($millions)")
+st.metric("Earnings in range", f"${picked.amount.sum():,.0f}", f"{len(picked):,} orders", delta_color="off")
 weekly = picked.groupby([pd.Grouper(key="date", freq="W"), "region"]).amount.sum().unstack()
 st.bar_chart(weekly)
 st.dataframe(picked.sort_values("date", ascending=False), hide_index=True)
