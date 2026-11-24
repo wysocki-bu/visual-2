@@ -9,7 +9,7 @@ def load_orders():
     n = 2_000
     return pd.DataFrame({
         "date": pd.Timestamp("2026-01-01") + pd.to_timedelta(rng.integers(0, 280, n), unit="D"),
-        "region": rng.choice(["Services", "Finance", "Manufacturing", "Energy"], n),
+        "region": rng.choice(["Retail", "Energy", "Autos", "Food"], n),
         "product": rng.choice(["Americas", "Europe", "Asia"], n, p=[0.5, 0.35, 0.15]),
         "amount": rng.gamma(2.0, 60.0, n).round(2),
     })
